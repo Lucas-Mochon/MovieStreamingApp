@@ -12,12 +12,12 @@ struct MainTabView: View {
         _authViewModel = StateObject(wrappedValue: authVM)
         _movieViewModel = StateObject(wrappedValue: MovieViewModel())
         
-        if let userId = authVM.currentSession?.user.id {
-            _favoritesViewModel = StateObject(wrappedValue: FavoritesViewModel(userId: userId))
-            _profileViewModel = StateObject(wrappedValue: ProfileViewModel(user: authVM.currentSession?.user))
+        if let user = authVM.currentSession?.user {
+            _favoritesViewModel = StateObject(wrappedValue: FavoritesViewModel(userId: user.id))
+            _profileViewModel = StateObject(wrappedValue: ProfileViewModel(userService: UserService()))
         } else {
             _favoritesViewModel = StateObject(wrappedValue: FavoritesViewModel())
-            _profileViewModel = StateObject(wrappedValue: ProfileViewModel())
+            _profileViewModel = StateObject(wrappedValue: ProfileViewModel(userService: UserService()))
         }
     }
     

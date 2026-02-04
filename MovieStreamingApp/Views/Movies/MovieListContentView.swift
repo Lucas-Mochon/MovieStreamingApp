@@ -20,12 +20,10 @@ struct MovieListContent: View {
                                 if favoritesViewModel.isFavorite(movieId: movie.id) {
                                     favoritesViewModel.removeFavorite(
                                         movieId: movie.id,
-                                        userId: session.user.id
                                     )
                                 } else {
                                     favoritesViewModel.addFavorite(
                                         movie,
-                                        userId: session.user.id
                                     )
                                 }
                             }

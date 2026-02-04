@@ -42,7 +42,7 @@ struct FavoritesView: View {
                         .onDelete { indexSet in
                             indexSet.forEach { index in
                                 let favorite = viewModel.favorites[index]
-                                viewModel.removeFavorite(movieId: favorite.movieId, userId: favorite.userId)
+                                viewModel.removeFavorite(movieId: favorite.movieId)
                             }
                         }
                     }

@@ -3,43 +3,66 @@ import Combine
 
 @MainActor
 final class FavoritesViewModel: ObservableObject {
+
     @Published var favorites: [Favorite] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
-    
-    private let persistence = PersistenceService.shared
+
+    private let favoriteService = FavoriteService()
     private var userId: String?
-    
+
     init(userId: String? = nil) {
         self.userId = userId
-        if let userId = userId {
+        if let userId {
             loadFavorites(forUserId: userId)
         }
     }
-    
+
     func loadFavorites(forUserId userId: String) {
         self.userId = userId
-        favorites = persistence.getFavorites(forUserId: userId)
-    }
-    
-    func addFavorite(_ movie: Movie, userId: String) {
-        let favorite = Favorite(userId: userId, movie: movie)
+        errorMessage = nil
+        
         do {
-            try persistence.saveFavorite(favorite)
-            favorites.append(favorite)
-            favorites.sort { $0.addedAt > $1.addedAt }
+            favorites = try favoriteService.getFavorites(for: userId)
+        } catch {
+            favorites = []
+            errorMessage = "Impossible de charger les favoris."
+        }
+    }
+
+
+    func addFavorite(_ movie: Movie) {
+        guard let userId else { return }
+        errorMessage = nil
+
+        do {
+            if let favorite = try favoriteService.addFavorite(movie: movie, userId: userId) {
+                favorites.insert(favorite, at: 0)
+            }
         } catch {
             errorMessage = "Impossible d'ajouter aux favoris"
         }
     }
-    
-    func removeFavorite(movieId: Int, userId: String) {
-        persistence.deleteFavorite(movieId: movieId, userId: userId)
-        favorites.removeAll { $0.movieId == movieId }
+
+    func removeFavorite(movieId: Int) {
+        guard let userId else { return }
+        errorMessage = nil
+
+        do {
+            try favoriteService.removeFavorite(movieId: movieId, userId: userId)
+            favorites.removeAll { $0.movieId == movieId }
+        } catch {
+            errorMessage = "Impossible de supprimer le favori"
+        }
     }
-    
+
     func isFavorite(movieId: Int) -> Bool {
-        guard let userId = userId else { return false }
-        return persistence.isFavorite(movieId: movieId, userId: userId)
+        guard let userId else { return false }
+
+        do {
+            return try favoriteService.isFavorite(movieId: movieId, userId: userId)
+        } catch {
+            return false
+        }
     }
 }

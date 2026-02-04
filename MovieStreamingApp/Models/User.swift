@@ -8,12 +8,12 @@ struct User: Codable, Identifiable {
     var createdAt: Date
     var updatedAt: Date
     
-    init(id: String = UUID().uuidString, name: String, email: String, password: String) {
+    init(id: String, name: String, email: String, password: String, createdAt: Date, updatedAt: Date) {
         self.id = id
         self.name = name
         self.email = email
         self.password = password
-        self.createdAt = Date()
-        self.updatedAt = Date()
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
     }
 }

@@ -7,10 +7,10 @@ final class AuthViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
-    private let authService = AuthService.shared
+    private let userService = UserService()
     
     init() {
-        currentSession = authService.getCurrentSession()
+        currentSession = userService.getCurrentSession()
     }
     
     func register(name: String, email: String, password: String) async {
@@ -18,8 +18,8 @@ final class AuthViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            _ = try authService.register(name: name, email: email, password: password)
-            let session = try authService.login(email: email, password: password)
+            _ = try userService.register(name: name, email: email, password: password)
+            let session = try userService.login(email: email, password: password)
             currentSession = session
         } catch {
             errorMessage = error.localizedDescription
@@ -33,7 +33,7 @@ final class AuthViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            let session = try authService.login(email: email, password: password)
+            let session = try userService.login(email: email, password: password)
             currentSession = session
         } catch {
             errorMessage = error.localizedDescription
@@ -46,7 +46,7 @@ final class AuthViewModel: ObservableObject {
         isLoading = true
         
         do {
-            try authService.logout()
+            try userService.logout()
             currentSession = nil
         } catch {
             errorMessage = error.localizedDescription

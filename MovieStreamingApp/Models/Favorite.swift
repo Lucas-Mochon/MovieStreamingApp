@@ -7,11 +7,11 @@ struct Favorite: Codable, Identifiable {
     let movie: Movie
     let addedAt: Date
     
-    init(userId: String, movie: Movie) {
-        self.id = UUID().uuidString
+    init(id: String = UUID().uuidString, userId: String, movieId: Int, movie: Movie, addedAt: Date) {
+        self.id = id
         self.userId = userId
-        self.movieId = movie.id
+        self.movieId = movieId
         self.movie = movie
-        self.addedAt = Date()
+        self.addedAt = addedAt
     }
 }

@@ -49,12 +49,10 @@ struct MovieDetailView: View {
                         if isFavorite {
                             favoritesViewModel.removeFavorite(
                                 movieId: movie.id,
-                                userId: session.user.id
                             )
                         } else {
                             favoritesViewModel.addFavorite(
                                 movie,
-                                userId: session.user.id
                             )
                         }
                         isFavorite.toggle()
