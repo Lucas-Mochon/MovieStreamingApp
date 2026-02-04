@@ -24,12 +24,17 @@ struct MainTabView: View {
     var body: some View {
         if let session = authViewModel.currentSession {
             TabView {
-                MovieListView(viewModel: movieViewModel, favoritesViewModel: favoritesViewModel)
-                    .tabItem {
-                        Label("Films", systemImage: "film")
-                    }
+                MovieListView(
+                    viewModel: movieViewModel,
+                    favoritesViewModel: favoritesViewModel,
+                    authViewModel: authViewModel,
+                    session: session
+                )
+                .tabItem {
+                    Label("Films", systemImage: "film")
+                }
                 
-                FavoritesView(viewModel: favoritesViewModel)
+                FavoritesView(viewModel: favoritesViewModel, session: session)
                     .tabItem {
                         Label("Favoris", systemImage: "heart.fill")
                     }

@@ -18,7 +18,6 @@ final class MovieViewModel: ObservableObject {
     private let itemsPerPage = 20
     
     init() {
-        // ✅ Debounce sur searchQuery (300ms)
         $searchQuery
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .sink { [weak self] query in
@@ -27,7 +26,6 @@ final class MovieViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    // ✅ Charge les films populaires initialement
     func loadInitialMovies() async {
         currentPage = 1
         hasMorePages = true
@@ -35,7 +33,6 @@ final class MovieViewModel: ObservableObject {
         await loadPopularMovies()
     }
     
-    // ✅ Charge plus de films (pagination)
     func loadMoreMovies() async {
         guard !isLoading && hasMorePages && searchQuery.isEmpty else { return }
         
@@ -81,7 +78,6 @@ final class MovieViewModel: ObservableObject {
         isLoading = false
     }
     
-    // ✅ Fonction appelée automatiquement par le debounce
     private func performSearch(text: String) async {
         if text.isEmpty {
             await loadInitialMovies()
@@ -90,7 +86,6 @@ final class MovieViewModel: ObservableObject {
         }
     }
     
-    // ✅ Recherche les films par requête
     func searchMovies(by query: String) async {
         guard !isLoading else { return }
         
@@ -108,7 +103,6 @@ final class MovieViewModel: ObservableObject {
         isLoading = false
     }
     
-    // ✅ Réinitialise la recherche
     func clearSearch() {
         searchQuery = ""
     }

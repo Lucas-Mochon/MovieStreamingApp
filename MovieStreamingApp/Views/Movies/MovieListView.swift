@@ -1,62 +1,51 @@
 import SwiftUI
+import Combine
 
 struct MovieListView: View {
-    @StateObject var viewModel: MovieViewModel
-    @StateObject var favoritesViewModel: FavoritesViewModel
-    @State private var selectedMovie: Movie?
-    
+    @ObservedObject var viewModel: MovieViewModel
+    @ObservedObject var favoritesViewModel: FavoritesViewModel
+    @ObservedObject var authViewModel: AuthViewModel
+    let session: UserSession
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
                 SearchBar(text: $viewModel.searchQuery)
-                
-                if viewModel.isLoading && viewModel.movies.isEmpty {
-                    LoadingView()
-                } else if let error = viewModel.errorMessage {
-                    ErrorView(message: error)
-                } else if viewModel.movies.isEmpty {
-                    VStack {
-                        Image(systemName: "film")
-                            .font(.system(size: 60))
-                            .foregroundColor(.gray)
-                        Text("Aucun film trouvé")
-                            .foregroundColor(.gray)
-                    }
-                    .frame(maxHeight: .infinity)
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: 16) {
-                            ForEach(viewModel.movies) { movie in
-                                NavigationLink(value: movie) {
-                                    MovieCard(
-                                        movie: movie,
-                                        isFavorite: favoritesViewModel.isFavorite(movieId: movie.id)
-                                    )
-                                }
-                                .onAppear {
-                                    if movie.id == viewModel.movies.last?.id {
-                                        Task {
-                                            await viewModel.loadMoreMovies()
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            if viewModel.isLoading {
-                                ProgressView()
-                            }
-                        }
-                        .padding(16)
-                    }
-                }
+                content
             }
             .navigationTitle("Films")
             .navigationDestination(for: Movie.self) { movie in
-                MovieDetailView(movie: movie, favoritesViewModel: favoritesViewModel)
+                MovieDetailView(
+                    movie: movie,
+                    favoritesViewModel: favoritesViewModel,
+                    session: session
+                )
             }
             .task {
                 await viewModel.loadInitialMovies()
             }
+        }
+    }
+
+
+    @ViewBuilder
+    private var content: some View {
+        if viewModel.isLoading && viewModel.movies.isEmpty {
+            LoadingView()
+        } else if let error = viewModel.errorMessage {
+            ErrorView(message: error)
+        } else if viewModel.movies.isEmpty {
+            EmptyStateView()
+        } else {
+            MovieListContent(
+                movies: viewModel.movies,
+                isLoading: viewModel.isLoading,
+                favoritesViewModel: favoritesViewModel,
+                session: session,
+                loadMore: {
+                    await viewModel.loadMoreMovies()
+                }
+            )
         }
     }
 }
@@ -82,5 +71,18 @@ struct SearchBar: View {
         .background(Color(.systemGray6))
         .cornerRadius(8)
         .padding(16)
+    }
+}
+
+struct EmptyStateView: View {
+    var body: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "film")
+                .font(.system(size: 60))
+                .foregroundColor(.gray)
+            Text("Aucun film trouvé")
+                .foregroundColor(.gray)
+        }
+        .frame(maxHeight: .infinity)
     }
 }

@@ -18,7 +18,7 @@ final class AuthViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-//            let user = try authService.register(name: name, email: email, password: password)
+            _ = try authService.register(name: name, email: email, password: password)
             let session = try authService.login(email: email, password: password)
             currentSession = session
         } catch {

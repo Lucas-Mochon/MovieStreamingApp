@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FavoritesView: View {
     @StateObject var viewModel: FavoritesViewModel
+    let session: UserSession
     
     var body: some View {
         NavigationStack {
@@ -50,7 +51,7 @@ struct FavoritesView: View {
             }
             .navigationTitle("Mes favoris")
             .navigationDestination(for: Movie.self) { movie in
-                MovieDetailView(movie: movie, favoritesViewModel: viewModel)
+                MovieDetailView(movie: movie, favoritesViewModel: viewModel, session: session)
             }
         }
     }

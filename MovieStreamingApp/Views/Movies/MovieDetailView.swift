@@ -3,6 +3,7 @@ import SwiftUI
 struct MovieDetailView: View {
     let movie: Movie
     @StateObject var favoritesViewModel: FavoritesViewModel
+    let session: UserSession
     @Environment(\.dismiss) var dismiss
     @State private var isFavorite = false
 
@@ -48,12 +49,12 @@ struct MovieDetailView: View {
                         if isFavorite {
                             favoritesViewModel.removeFavorite(
                                 movieId: movie.id,
-                                userId: "current_user"
+                                userId: session.user.id
                             )
                         } else {
                             favoritesViewModel.addFavorite(
                                 movie,
-                                userId: "current_user"
+                                userId: session.user.id
                             )
                         }
                         isFavorite.toggle()
