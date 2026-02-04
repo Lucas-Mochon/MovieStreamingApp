@@ -17,9 +17,3 @@ struct User: Codable, Identifiable {
         self.updatedAt = Date()
     }
 }
-
-struct UserSession: Codable {
-    let user: User
-    let token: String
-    let loginDate: Date
-}
