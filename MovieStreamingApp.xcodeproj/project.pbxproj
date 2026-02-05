@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3A47FFD22F34A7AE0007D7A6 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3AD35BEA2F33364900C8A548 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,14 +28,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		3AD35BDC2F33364700C8A548 /* MovieStreamingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieStreamingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD35BE92F33364900C8A548 /* MovieStreamingAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieStreamingAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD35BF32F33364900C8A548 /* MovieStreamingAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieStreamingAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3A47FFD62F34A92A0007D7A6 /* Exceptions for "MovieStreamingApp" folder in "MovieStreamingApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3AD35BDB2F33364700C8A548 /* MovieStreamingApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3AD35BDE2F33364700C8A548 /* MovieStreamingApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3A47FFD62F34A92A0007D7A6 /* Exceptions for "MovieStreamingApp" folder in "MovieStreamingApp" target */,
+			);
 			path = MovieStreamingApp;
 			sourceTree = "<group>";
 		};
@@ -75,6 +93,7 @@
 		3AD35BD32F33364700C8A548 = {
 			isa = PBXGroup;
 			children = (
+				3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */,
 				3AD35BDE2F33364700C8A548 /* MovieStreamingApp */,
 				3AD35BEC2F33364900C8A548 /* MovieStreamingAppTests */,
 				3AD35BF62F33364900C8A548 /* MovieStreamingAppUITests */,
@@ -215,6 +234,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A47FFD22F34A7AE0007D7A6 /* Secrets.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +294,7 @@
 /* Begin XCBuildConfiguration section */
 		3AD35BFB2F33364900C8A548 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -335,6 +356,7 @@
 		};
 		3AD35BFC2F33364900C8A548 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -388,6 +410,7 @@
 		};
 		3AD35BFE2F33364900C8A548 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -407,6 +430,7 @@
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MovieStreamingApp/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -440,6 +464,7 @@
 		};
 		3AD35BFF2F33364900C8A548 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -459,6 +484,7 @@
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MovieStreamingApp/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -492,6 +518,7 @@
 		};
 		3AD35C012F33364900C8A548 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -517,6 +544,7 @@
 		};
 		3AD35C022F33364900C8A548 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -542,6 +570,7 @@
 		};
 		3AD35C042F33364900C8A548 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -566,6 +595,7 @@
 		};
 		3AD35C052F33364900C8A548 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

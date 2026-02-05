@@ -12,7 +12,8 @@ enum TMDBEndpoint {
     }
     
     private var apiKey: String {
-        "721f414acc9025e9f936c4ce031a64bd"
+        print(Secrets.tmdbApiKey)
+       return Secrets.tmdbApiKey
     }
     
     var path: String {
@@ -63,5 +64,14 @@ enum TMDBEndpoint {
         var components = URLComponents(string: baseURL + path)
         components?.queryItems = queryItems
         return components?.url
+    }
+}
+
+struct Secrets {
+    static var tmdbApiKey: String {
+        guard let key = Bundle.main.infoDictionary?["TMDB_API_KEY"] as? String else {
+            fatalError("TMDB_API_KEY not set in Info.plist or xcconfig!")
+        }
+        return key
     }
 }
