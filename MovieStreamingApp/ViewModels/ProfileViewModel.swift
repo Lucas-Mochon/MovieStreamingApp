@@ -18,8 +18,6 @@ final class ProfileViewModel: ObservableObject {
         setupSessionMonitoring()
     }
 
-    // MARK: - Load User
-
     func loadUserFromSession() {
         guard let session = userService.getCurrentSession() else {
             errorMessage = "Aucune session active"
@@ -31,14 +29,11 @@ final class ProfileViewModel: ObservableObject {
         user = session.user
     }
 
-    // MARK: - Update Profile
-
     func updateProfile(name: String, email: String) async {
         isLoading = true
         errorMessage = nil
         successMessage = nil
 
-        // Vérifier session valide
         guard userService.isSessionValid() else {
             errorMessage = "Session expirée, reconnexion requise"
             isSessionExpired = true
@@ -52,7 +47,6 @@ final class ProfileViewModel: ObservableObject {
             return
         }
 
-        // Validation basique
         let trimmedName = name.trimmingCharacters(in: .whitespaces)
         let trimmedEmail = email.trimmingCharacters(in: .whitespaces)
 
@@ -69,20 +63,16 @@ final class ProfileViewModel: ObservableObject {
         do {
             try userService.update(user: currentUser)
 
-            // Rafraîchir depuis la session
             user = userService.getCurrentSession()?.user
             successMessage = "Profil mis à jour avec succès"
 
         } catch {
             errorMessage = error.localizedDescription
-            // Restaurer l'ancien user en cas d'erreur
             loadUserFromSession()
         }
 
         isLoading = false
     }
-
-    // MARK: - Logout
 
     func logout() {
         userService.logout()
@@ -90,10 +80,7 @@ final class ProfileViewModel: ObservableObject {
         isSessionExpired = true
     }
 
-    // MARK: - Session Monitoring
-
     private func setupSessionMonitoring() {
-        // Monitorer les changements de session toutes les 60 secondes
         Timer.publish(every: 60, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in

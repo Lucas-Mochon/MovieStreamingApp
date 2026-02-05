@@ -12,54 +12,49 @@ struct MovieListView: View {
             VStack(spacing: 16) {
                 SearchBar(text: $viewModel.searchQuery)
                 
-                Picker("Trier par", selection: $viewModel.selectedSort) {
-                   ForEach(SortOption.allCases, id: \.self) { option in
-                       Text(option.rawValue)
-                           .tag(option)
-                   }
-               }
-               .pickerStyle(.segmented)
-               .padding(.horizontal)
+                HStack(spacing: 16) {
+                    Picker("Champ", selection: $viewModel.selectedSortField) {
+                        ForEach(SortField.allCases, id: \.self) { field in
+                            Text(field.rawValue).tag(field)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    
+                    Picker("", selection: $viewModel.selectedSortOrder) {
+                        Image(systemName: "arrow.up").tag(SortOrder.ascending)
+                        Image(systemName: "arrow.down").tag(SortOrder.descending)
+                    }
+                    .pickerStyle(.segmented)
+                    .frame(width: 80)
+                }
+                .padding(.horizontal)
                 
                 content
             }
             .navigationTitle("Films")
             .navigationDestination(for: Movie.self) { movie in
-                MovieDetailView(
-                    movie: movie,
-                    favoritesViewModel: favoritesViewModel,
-                    session: session
-                )
+                MovieDetailView(movie: movie, favoritesViewModel: favoritesViewModel, session: session)
             }
-            .task {
-                await viewModel.loadInitialMovies()
-            }
+            .task { await viewModel.loadInitialMovies() }
         }
     }
 
-
     @ViewBuilder
     private var content: some View {
-        if viewModel.isLoading && viewModel.movies.isEmpty {
-            LoadingView()
-        } else if let error = viewModel.errorMessage {
-            ErrorView(message: error)
-        } else if viewModel.movies.isEmpty {
-            EmptyStateView()
-        } else {
+        if viewModel.isLoading && viewModel.movies.isEmpty { LoadingView() }
+        else if let error = viewModel.errorMessage { ErrorView(message: error) }
+        else if viewModel.movies.isEmpty { EmptyStateView() }
+        else {
             MovieListContent(
                 movies: viewModel.movies,
                 isLoading: viewModel.isLoading,
                 favoritesViewModel: favoritesViewModel,
                 session: session,
-                loadMore: {
-                    await viewModel.loadMoreMovies()
-                }
+                loadMore: { await viewModel.loadMoreMovies() }
             )
         }
     }
 }
-
 struct SearchBar: View {
     @Binding var text: String
     

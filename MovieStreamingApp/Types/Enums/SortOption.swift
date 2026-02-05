@@ -1,21 +1,25 @@
-import Foundation
+struct SortOption: Hashable, CaseIterable {
+    let field: SortField
+    let order: SortOrder
 
-enum SortOption: String, CaseIterable {
-    case popularity = "Popularité"
-    case rating = "Note"
-    case releaseDate = "Date de sortie"
-    case title = "Titre"
-    
+    var displayName: String {
+        "\(field.rawValue) \(order == .ascending ? "↑" : "↓")"
+    }
+
     var apiValue: String {
-        switch self {
-        case .popularity:
-            return "popularity.desc"
-        case .rating:
-            return "vote_average.desc"
-        case .releaseDate:
-            return "release_date.desc"
-        case .title:
-            return "original_title.asc"
+        switch field {
+        case .popularity: return "popularity.\(order.rawValue)"
+        case .rating: return "vote_average.\(order.rawValue)"
+        case .releaseDate: return "release_date.\(order.rawValue)"
+        case .title: return "original_title.\(order.rawValue)"
+        }
+    }
+
+    static var allCases: [SortOption] {
+        SortField.allCases.flatMap { field in
+            SortOrder.allCases.map { order in
+                SortOption(field: field, order: order)
+            }
         }
     }
 }

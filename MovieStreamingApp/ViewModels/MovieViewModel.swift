@@ -9,13 +9,16 @@ final class MovieViewModel: ObservableObject {
     @Published var currentPage = 1
     @Published var hasMorePages = true
     @Published var searchQuery = ""
-    @Published var selectedSort: SortOption = .popularity
+    
+    @Published var selectedSortField: SortField = .popularity
+    @Published var selectedSortOrder: SortOrder = .descending
+    
+    var selectedSort: SortOption {
+        SortOption(field: selectedSortField, order: selectedSortOrder)
+    }
     
     private let apiService = ApiService.shared
     private var cancellables = Set<AnyCancellable>()
-    
-    private var currentOffset = 0
-    private let itemsPerPage = 20
     
     init() {
         $searchQuery
@@ -25,12 +28,11 @@ final class MovieViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
-        $selectedSort
+        // 🔄 reload quand champ ou ordre change
+        Publishers.CombineLatest($selectedSortField, $selectedSortOrder)
             .dropFirst()
-            .sink { [weak self] _ in
-                Task {
-                    await self?.loadInitialMovies()
-                }
+            .sink { [weak self] _, _ in
+                Task { await self?.loadInitialMovies() }
             }
             .store(in: &cancellables)
     }
@@ -43,8 +45,7 @@ final class MovieViewModel: ObservableObject {
     }
     
     func loadMoreMovies() async {
-        guard !isLoading && hasMorePages && searchQuery.isEmpty else { return }
-        
+        guard !isLoading, hasMorePages, searchQuery.isEmpty else { return }
         currentPage += 1
         await loadMovies()
     }
@@ -54,62 +55,32 @@ final class MovieViewModel: ObservableObject {
         errorMessage = nil
 
         do {
-            let response = try await apiService.fetchMovies(
-                page: currentPage,
-                sort: selectedSort
-            )
-
-            if currentPage == 1 {
-                movies = response.results
-            } else {
-                movies.append(contentsOf: response.results)
-            }
-
+            let response = try await apiService.fetchMovies(page: currentPage, sort: selectedSort)
+            if currentPage == 1 { movies = response.results }
+            else { movies.append(contentsOf: response.results) }
+            
             hasMorePages = currentPage < response.totalPages
         } catch {
             errorMessage = error.localizedDescription
         }
 
-        isLoading = false
-    }
-    
-    func loadTopRatedMovies() async {
-        isLoading = true
-        errorMessage = nil
-        
-        do {
-            let response = try await apiService.fetchTopRatedMovies(page: currentPage)
-            if currentPage == 1 {
-                movies = response.results
-            } else {
-                movies.append(contentsOf: response.results)
-            }
-            hasMorePages = currentPage < response.totalPages
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-        
         isLoading = false
     }
     
     private func performSearch(text: String) async {
-        if text.isEmpty {
-            await loadInitialMovies()
-        } else {
-            await searchMovies(by: text)
-        }
+        if text.isEmpty { await loadInitialMovies() }
+        else { await searchMovies(by: text) }
     }
     
     func searchMovies(by query: String) async {
         guard !isLoading else { return }
-        
         isLoading = true
         errorMessage = nil
         
         do {
             let response = try await apiService.searchMovies(query: query, page: 1)
             movies = response.results
-            hasMorePages = 1 < response.totalPages
+            hasMorePages = false
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -117,13 +88,6 @@ final class MovieViewModel: ObservableObject {
         isLoading = false
     }
     
-    func clearSearch() {
-        searchQuery = ""
-    }
-    
-    func resetPagination() {
-        currentPage = 1
-        movies = []
-        hasMorePages = true
-    }
+    func clearSearch() { searchQuery = "" }
+    func resetPagination() { currentPage = 1; movies = []; hasMorePages = true }
 }

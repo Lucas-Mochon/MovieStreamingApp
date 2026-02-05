@@ -10,10 +10,8 @@ final class FavoritesViewModel: ObservableObject {
 
     private let favoriteService = FavoriteService()
     
-    // L'utilisateur courant
     private var userId: String? {
         didSet {
-            // Recharge automatiquement les favoris quand l'user change
             loadFavorites()
         }
     }
@@ -23,12 +21,10 @@ final class FavoritesViewModel: ObservableObject {
         loadFavorites()
     }
 
-    // MARK: - Mettre à jour l'utilisateur
     func updateUser(userId: String?) {
         self.userId = userId
     }
 
-    // MARK: - Charger les favoris
     func loadFavorites() {
         guard let userId = userId else {
             favorites = []
@@ -48,7 +44,6 @@ final class FavoritesViewModel: ObservableObject {
         isLoading = false
     }
 
-    // MARK: - Ajouter un favori
     func addFavorite(_ movie: Movie) {
         guard let userId = userId else { return }
         errorMessage = nil
@@ -62,7 +57,6 @@ final class FavoritesViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Supprimer un favori
     func removeFavorite(movieId: Int) {
         guard let userId = userId else { return }
         errorMessage = nil
@@ -75,7 +69,6 @@ final class FavoritesViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Vérifier si c'est un favori
     func isFavorite(movieId: Int) -> Bool {
         guard let userId = userId else { return false }
 

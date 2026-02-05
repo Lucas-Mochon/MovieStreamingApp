@@ -40,7 +40,6 @@ enum TMDBEndpoint {
         case .discoverMovies(let page, let sort, let releaseDateLTE):
             items.append(URLQueryItem(name: "page", value: String(page)))
             items.append(URLQueryItem(name: "sort_by", value: sort.apiValue))
-            
             if let lte = releaseDateLTE {
                 items.append(URLQueryItem(name: "release_date.lte", value: lte))
             }
