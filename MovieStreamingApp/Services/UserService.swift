@@ -17,7 +17,6 @@ final class UserService {
         loadSession()
     }
     
-    // MARK: - Register
     
     func register(name: String, email: String, password: String) throws -> User {
         guard !email.isEmpty, !password.isEmpty, password.count >= 8 else {
@@ -48,7 +47,6 @@ final class UserService {
         return user
     }
     
-    // MARK: - Login
     
     func login(email: String, password: String) throws -> UserSession {
         guard let user = try dao.findByEmail(email) else {
@@ -65,13 +63,11 @@ final class UserService {
         return session
     }
     
-    // MARK: - Logout
     
     func logout() {
         currentSession = nil
     }
     
-    // MARK: - Update
     
     func update(user: User) throws {
         try dao.update(user)
@@ -86,7 +82,6 @@ final class UserService {
         }
     }
     
-    // MARK: - Queries
     
     func findById(_ id: String) throws -> User? {
         try dao.findById(id)
@@ -106,8 +101,7 @@ final class UserService {
     func isSessionValid() -> Bool {
         getCurrentSession() != nil
     }
-    
-    // MARK: - Private Helpers
+
     
     private func createSession(for user: User) -> UserSession {
         let token = generateSecureToken()
@@ -137,7 +131,6 @@ final class UserService {
         hashPassword(password) == hash
     }
     
-    // MARK: - Session Persistence
     
     private func saveSession() {
         guard let session = currentSession else {
@@ -174,7 +167,6 @@ final class UserService {
     }
 }
 
-// MARK: - Errors
 
 enum UserServiceError: LocalizedError {
     case invalidInput
