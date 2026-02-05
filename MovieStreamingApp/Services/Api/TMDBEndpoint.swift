@@ -1,7 +1,7 @@
 import Foundation
 
 enum TMDBEndpoint {
-    case popularMovies(page: Int)
+    case discoverMovies(page: Int, sort: SortOption)
     case searchMovies(query: String, page: Int)
     case movieDetails(id: Int)
     case upcomingMovies(page: Int)
@@ -17,8 +17,8 @@ enum TMDBEndpoint {
     
     var path: String {
         switch self {
-        case .popularMovies:
-            return "/movie/popular"
+        case .discoverMovies:
+            return "/discover/movie"
         case .searchMovies:
             return "/search/movie"
         case .movieDetails(let id):
@@ -35,21 +35,24 @@ enum TMDBEndpoint {
             URLQueryItem(name: "api_key", value: apiKey),
             URLQueryItem(name: "language", value: "fr-FR")
         ]
-        
+
         switch self {
-        case .popularMovies(let page):
-            items.append(URLQueryItem(name: "page", value: String(page)))
-        case .searchMovies(let query, let page):
-            items.append(URLQueryItem(name: "query", value: query))
-            items.append(URLQueryItem(name: "page", value: String(page)))
-        case .upcomingMovies(let page):
-            items.append(URLQueryItem(name: "page", value: String(page)))
-        case .topRatedMovies(let page):
-            items.append(URLQueryItem(name: "page", value: String(page)))
-        default:
-            break
-        }
-        
+            case .discoverMovies(let page, let sort):
+                items.append(URLQueryItem(name: "page", value: String(page)))
+                items.append(URLQueryItem(name: "sort_by", value: sort.apiValue))
+
+            case .searchMovies(let query, let page):
+                items.append(URLQueryItem(name: "query", value: query))
+                items.append(URLQueryItem(name: "page", value: String(page)))
+
+            case .upcomingMovies(let page),
+                 .topRatedMovies(let page):
+                items.append(URLQueryItem(name: "page", value: String(page)))
+
+            default:
+                break
+            }
+
         return items
     }
     

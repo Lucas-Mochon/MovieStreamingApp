@@ -11,6 +11,16 @@ struct MovieListView: View {
         NavigationStack {
             VStack(spacing: 16) {
                 SearchBar(text: $viewModel.searchQuery)
+                
+                Picker("Trier par", selection: $viewModel.selectedSort) {
+                   ForEach(SortOption.allCases, id: \.self) { option in
+                       Text(option.rawValue)
+                           .tag(option)
+                   }
+               }
+               .pickerStyle(.segmented)
+               .padding(.horizontal)
+                
                 content
             }
             .navigationTitle("Films")

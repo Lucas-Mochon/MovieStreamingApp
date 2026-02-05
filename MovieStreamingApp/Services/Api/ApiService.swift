@@ -10,6 +10,15 @@ final class ApiService {
         return decoder
     }()
     
+    func fetchMovies(
+        page: Int = 1,
+        sort: SortOption
+    ) async throws -> MovieResponse {
+        try await fetchMovies(
+            endpoint: .discoverMovies(page: page, sort: sort)
+        )
+    }
+    
     func fetchMovies(endpoint: TMDBEndpoint) async throws -> MovieResponse {
         guard let url = endpoint.url else {
             throw APIError.invalidURL
@@ -48,10 +57,6 @@ final class ApiService {
     
     func searchMovies(query: String, page: Int = 1) async throws -> MovieResponse {
         try await fetchMovies(endpoint: .searchMovies(query: query, page: page))
-    }
-    
-    func fetchPopularMovies(page: Int = 1) async throws -> MovieResponse {
-        try await fetchMovies(endpoint: .popularMovies(page: page))
     }
     
     func fetchUpcomingMovies(page: Int = 1) async throws -> MovieResponse {

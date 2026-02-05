@@ -24,38 +24,52 @@ final class MovieViewModel: ObservableObject {
                 Task { await self?.performSearch(text: query) }
             }
             .store(in: &cancellables)
+        
+        $selectedSort
+            .dropFirst()
+            .sink { [weak self] _ in
+                Task {
+                    await self?.loadInitialMovies()
+                }
+            }
+            .store(in: &cancellables)
     }
     
     func loadInitialMovies() async {
         currentPage = 1
         hasMorePages = true
         movies = []
-        await loadPopularMovies()
+        await loadMovies()
     }
     
     func loadMoreMovies() async {
         guard !isLoading && hasMorePages && searchQuery.isEmpty else { return }
         
         currentPage += 1
-        await loadPopularMovies()
+        await loadMovies()
     }
     
-    func loadPopularMovies() async {
+    func loadMovies() async {
         isLoading = true
         errorMessage = nil
-        
+
         do {
-            let response = try await apiService.fetchPopularMovies(page: currentPage)
+            let response = try await apiService.fetchMovies(
+                page: currentPage,
+                sort: selectedSort
+            )
+
             if currentPage == 1 {
                 movies = response.results
             } else {
                 movies.append(contentsOf: response.results)
             }
+
             hasMorePages = currentPage < response.totalPages
         } catch {
             errorMessage = error.localizedDescription
         }
-        
+
         isLoading = false
     }
     
