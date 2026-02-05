@@ -58,8 +58,6 @@ Avec MovieStreamingApp, plongez dans un catalogue complet de films, filtrez par 
   - Recherche par mot-clé  
   - Détails des films  
 
-> La clé API est désormais **sécurisée** via `XSecret` pour éviter toute fuite.
-
 ---
 
 ## 💾 Persistance locale
