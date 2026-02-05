@@ -14,8 +14,16 @@ final class ApiService {
         page: Int = 1,
         sort: SortOption
     ) async throws -> MovieResponse {
-        try await fetchMovies(
-            endpoint: .discoverMovies(page: page, sort: sort)
+        let todayString: String = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = .current
+            return formatter.string(from: Date())
+        }()
+        
+        return try await fetchMovies(
+            endpoint: .discoverMovies(page: page, sort: sort, releaseDateLTE: todayString)
         )
     }
     
@@ -48,9 +56,7 @@ final class ApiService {
                 throw APIError.invalidResponse(statusCode: httpResponse.statusCode)
             }
         } catch {
-            if error is APIError {
-                throw error
-            }
+            if error is APIError { throw error }
             throw APIError.networkError(error)
         }
     }
