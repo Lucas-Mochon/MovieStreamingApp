@@ -28,7 +28,6 @@ final class MovieViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
-        // 🔄 reload quand champ ou ordre change
         Publishers.CombineLatest($selectedSortField, $selectedSortOrder)
             .dropFirst()
             .sink { [weak self] _, _ in
@@ -67,7 +66,7 @@ final class MovieViewModel: ObservableObject {
         isLoading = false
     }
     
-    private func performSearch(text: String) async {
+    func performSearch(text: String) async {
         if text.isEmpty { await loadInitialMovies() }
         else { await searchMovies(by: text) }
     }
