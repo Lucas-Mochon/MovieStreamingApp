@@ -40,7 +40,7 @@ struct MainTabView: View {
                 AuthenticationContainer(viewModel: authViewModel)
             }
         }
-        .onChange(of: authViewModel.currentSession?.token) { _ in
+        .onChange(of: authViewModel.currentSession?.token) {
             favoritesViewModel.updateUser(userId: authViewModel.currentSession?.user.id)
             profileViewModel.loadUserFromSession()
         }

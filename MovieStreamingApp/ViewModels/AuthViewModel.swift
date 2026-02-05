@@ -44,13 +44,9 @@ final class AuthViewModel: ObservableObject {
     
     func logout() async {
         isLoading = true
-        
-        do {
-            try userService.logout()
-            currentSession = nil
-        } catch {
-            errorMessage = error.localizedDescription
-        }
+
+        userService.logout()
+        currentSession = nil
         
         isLoading = false
     }
