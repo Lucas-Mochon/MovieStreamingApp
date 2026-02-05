@@ -20,7 +20,7 @@ final class ProfileViewModel: ObservableObject {
 
     // MARK: - Load User
 
-    private func loadUserFromSession() {
+    func loadUserFromSession() {
         guard let session = userService.getCurrentSession() else {
             errorMessage = "Aucune session active"
             isSessionExpired = true

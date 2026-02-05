@@ -7,7 +7,7 @@ final class AuthViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
-    private let userService = UserService()
+    let userService = UserService()
     
     init() {
         currentSession = userService.getCurrentSession()
