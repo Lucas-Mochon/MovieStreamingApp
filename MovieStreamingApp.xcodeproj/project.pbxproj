@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3A47FFD22F34A7AE0007D7A6 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */; };
+		3A47FFD82F34AE7A0007D7A6 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 3A47FFD72F34AE6F0007D7A6 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		3A47FFD72F34AE6F0007D7A6 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		3AD35BDC2F33364700C8A548 /* MovieStreamingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieStreamingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD35BE92F33364900C8A548 /* MovieStreamingAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieStreamingAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD35BF32F33364900C8A548 /* MovieStreamingAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieStreamingAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +95,7 @@
 		3AD35BD32F33364700C8A548 = {
 			isa = PBXGroup;
 			children = (
+				3A47FFD72F34AE6F0007D7A6 /* .gitignore */,
 				3A47FFD12F34A7AE0007D7A6 /* Secrets.xcconfig */,
 				3AD35BDE2F33364700C8A548 /* MovieStreamingApp */,
 				3AD35BEC2F33364900C8A548 /* MovieStreamingAppTests */,
@@ -235,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A47FFD22F34A7AE0007D7A6 /* Secrets.xcconfig in Resources */,
+				3A47FFD82F34AE7A0007D7A6 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
