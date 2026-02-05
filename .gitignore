@@ -1,1 +1,10 @@
-*.xcconfig
+# Retirer du tracking (sans supprimer localement)
+git rm --cached *.xcconfig
+
+# Ou un fichier spécifique
+git rm --cached Config.xcconfig
+
+# Commit
+git add .gitignore
+git commit -m "Remove xcconfig files from tracking"
+git push
